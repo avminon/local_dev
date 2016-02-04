@@ -16,6 +16,8 @@ class LessonController extends Controller
         session()->keep('lessonId');
         session()->keep('maxQuestions');
         session()->keep('questionIndex');
+        session()->keep('wordCount');
+        session()->keep('lessonName');
     }
 
     public function index()
@@ -33,8 +35,10 @@ class LessonController extends Controller
         try {
             session()->flash('questionIndex', 0);
             session()->flash('maxQuestions', 0);
+            session()->flash('lessonName', $request->lessonName);
+            session()->flash('wordCount', $request->categoryCount);
             $lesson = new Lesson;
-            $lesson->setLesson($this->user->id, $request->category_id);
+            $lesson->setLesson($this->user->id, $request->categoryId);
             if ($lesson->generateLessonWords($this->user->id)) {
                 session()->flash('lessonId', $lesson->id);
                 return redirect('exam');
