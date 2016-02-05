@@ -28,7 +28,9 @@
                 <tr>
                     <td>
                         {!! Form::open(['method' => 'post', 'route' => 'lessons.store']) !!}
-                            {!! Form::hidden('category_id', $category->id) !!}
+                            {!! Form::hidden('lessonName', $category->name) !!}
+                            {!! Form::hidden('categoryCount', $category->getCountWords()) !!}
+                            {!! Form::hidden('categoryId', $category->id) !!}
                             {!! Form::submit('Start Lesson') !!}
                         {!! Form::close() !!}
                     </td>

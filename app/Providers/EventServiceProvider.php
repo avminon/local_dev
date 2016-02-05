@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ActivityEvent;
+use App\Handlers\Events\ActivityEventHandler;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -16,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SomeEvent' => [
             'App\Listeners\EventListener',
         ],
+        ActivityEvent::class => [
+            ActivityEventHandler::class,
+        ],
     ];
 
     /**
@@ -27,7 +32,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
-
-        //
     }
 }

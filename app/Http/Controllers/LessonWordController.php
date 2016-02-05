@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Events\FinishLesson;
+use App\Events\ActivityEvent;
 use App\Http\Controllers\Controller;
 use App\Lesson;
 use App\LessonWord;
@@ -16,6 +16,8 @@ class LessonWordController extends Controller
         session()->keep('lessonId');
         session()->keep('maxQuestions');
         session()->keep('questionIndex');
+        session()->keep('wordCount');
+        session()->keep('lessonName');
     }
 
     public function index(Request $request)
@@ -48,9 +50,9 @@ class LessonWordController extends Controller
     public function update(Request $request)
     {
         try {
-            $id = intval($request->input('lesson_word_id'));
-            $lesson = intval(session()->get('lessonId'));
-            $lessonWord = LessonWord::findOrFail($id);
+            $wordId = intval($request->input('lesson_word_id'));
+            $lessonId = intval(session()->get('lessonId'));
+            $lessonWord = LessonWord::findOrFail($wordId);
             $lessonWord->setAnswer($request);
         } catch (ModelNotFoundException $e) {
             session()->flash('flash_error', 'Your answer cannot be saved. Please try again later.');
@@ -61,7 +63,19 @@ class LessonWordController extends Controller
             return redirect('exam');
         } else {
             session()->flash('questionIndex', $nextIndex); // Add another one to prevent users from going back
-            return redirect('result/' . $lesson);
+
+            $eventData = [
+                'userId' => $this->user->id,
+                'activity' => $this->user->name . " learned " . intval(session()->get('questionIndex')) .
+                "/" . intval(session()->get('wordCount')) . " in " . session()->get('lessonName'),
+                'lessonId' => $lessonId,
+                'type' => 1,
+            ];
+            \Event::fire(new ActivityEvent($eventData));
+
+            session()->forget('wordCount');
+            session()->forget('lessonName');
+            return redirect('result/' . $lessonId);
         }
     }
 
