@@ -36,16 +36,23 @@
                         <li>
                             {!! link_to('/home', 'Home') !!}
                         </li>
+                        <li>
+                            {!! link_to('words/', 'Words') !!}
+                        </li>
                         @if ((!auth()->guest()) && ($user->isAdmin()))
                             <li>
-                                {!! link_to('words/', 'Words') !!}
-                            </li>
-                            <li>
                                 {!! link_to('categories/', 'Categories') !!}
+                            </li>
+                        @else
+                            <li>
+                                {!! link_to('lessons/', 'Lessons') !!}
                             </li>
                         @endif
                         <li>
                             {!! link_to('users/list', 'Users') !!}
+                        </li>
+                        <li>
+                            {!! link_to('activities', 'Activities') !!}
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
