@@ -30,6 +30,7 @@
                                 <br />
                                 {{ $followedUser->email }}
                             </td>
+
                             @if (!($user->isAdmin()))
                             <td>
                                 @if (in_array($followedUser->id, $follows))
@@ -46,6 +47,7 @@
                             </td>
                             @else
                             <td>
+
                                 {!! link_to('users/show/' . $followedUser->id,'View') !!}
                             </td>
                             @endif

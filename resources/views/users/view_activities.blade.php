@@ -7,6 +7,9 @@
     <div class="panel-body">
         <div class="col-md-9">
             <table class="col-md-9">
+                @if (count($activities) == App\Activity::NO_ACTIVITY)
+                    <tr><td>No Activities Found</td></tr>
+                @else
                 <thead>
                     <tr>
                         <th class="col-md-3">Date</th>
@@ -35,6 +38,7 @@
                         </tr>
                     @endforeach
                 </tbody>
+                @endif
             </table>
             <hr>
         </div>
