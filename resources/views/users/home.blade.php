@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('title')
-    Welcome!
+    {{ trans('common.users.home.panel_label') }}
 @endsection
 
 @section('content')
