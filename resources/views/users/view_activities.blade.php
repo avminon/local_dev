@@ -5,15 +5,17 @@
 @endsection
 @section('content')
     <div class="panel-body">
-        <div class="col-md-9">
-            <table class="col-md-9">
+        <div class="col-md-12">
+            <table class="col-md-12">
                 @if (count($activities) == App\Activity::NO_ACTIVITY)
                     <tr><td>No Activities Found</td></tr>
                 @else
                 <thead>
                     <tr>
-                        <th class="col-md-3">Date</th>
-                        <th class="col-md-3">User</th>
+                        <th class="col-md-2">Date</th>
+                        <th class="col-md-2">User</th>
+                        <th class="col-md-1">Followers</th>
+                        <th class="col-md-1">Following</th>
                         <th class="col-md-6">Activity</th>
                     </tr>
                 </thead>
@@ -34,6 +36,8 @@
                                     </a>
                                 </span>
                             </td>
+                            <td>{{ count($activity->user->followees) }}</td>
+                            <td>{{ count($activity->user->followers) }}</td>
                             <td>{{ $activity->activity }}</td>
                         </tr>
                     @endforeach
