@@ -26,7 +26,7 @@
                 <div class="panel-footer text-center">
                     <table>
                         <tr>
-                            <th>Words Learned</th><td>&nbsp;</td><td>{{ count($words) }}</td>
+                            <th>Words Learned</th><td>&nbsp;</td><td>{{ count($lessonWords) }}</td>
                         </tr>
                         <tr>
                             <th>Followers</th><td>&nbsp;</td><td>{{ count($user->followees) }}</td>

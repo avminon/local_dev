@@ -3,11 +3,14 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Auth;
+use App\Category;
 use App\Events\ActivityEvent;
 use App\Follow;
 use App\Http\Controllers\Controller;
+use App\Lesson;
 use App\LessonWord;
 use App\User;
+use App\Word;
 use Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -23,18 +26,35 @@ class UserController extends Controller
 
     public function index()
     {
-        $title = trans('common.users.page_title');
-
-        $activity = new Activity;
-        $words = LessonWord::where('user_id', $this->user->id)->get();
-
         $view = ($this->user->isAdmin()) ? 'home' : 'users.home';
-        return view($view, [
-            'user' => $this->user,
-            'activities' => $activity->getAllUserActivities($this->user->id),
-            'title' => $title . $this->user->id,
-            'words' => $words,
-        ]);
+        $title = trans('common.users.page_title');
+        $activity = new Activity;
+        if ($this->user->isAdmin()) {
+            $wordList = Word::get();
+            $userList = User::get();
+            $categoryList = Category::get();
+            $lessonList = Lesson::get();
+
+            return view($view, [
+                'user' => $this->user,
+                'activities' => $activity->getAllUserActivities($this->user->id),
+                'title' => $title . $this->user->id,
+                'wordList' => $wordList,
+                'userList' => $userList,
+                'categoryList' => $categoryList,
+                'lessonList' => $lessonList,
+            ]);
+        } else {
+            $lessonWords = LessonWord::where('user_id', $this->user->id)->get();
+
+            return view($view, [
+                'user' => $this->user,
+                'activities' => $activity->getAllUserActivities($this->user->id),
+                'title' => $title . $this->user->id,
+                'lessonWords' => $lessonWords,
+            ]);
+        }
+
     }
 
     public function activities()

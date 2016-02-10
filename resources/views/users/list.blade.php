@@ -44,9 +44,8 @@
                                 !!}
                             </td>
                             <td>
-                                {{ $followedUser->name }}
-                            </td>
-                            <td>
+                                {!! link_to('users/show/' . $followedUser->id,$followedUser->name) !!}
+                                <br />
                                 {{ $followedUser->email }}
                             </td>
 			     @if (!($user->isAdmin()))
