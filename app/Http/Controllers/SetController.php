@@ -46,6 +46,7 @@ class SetController extends Controller
                 'set' => $set,
                 'title' => 'Edit set',
                 'user' => $this->user,
+                'categories' => $this->categories,
             ]);
         } catch (ModelNotFoundException $e) {
             \Session::flash('flash_error', 'Edit failed. The set cannot be found.');
