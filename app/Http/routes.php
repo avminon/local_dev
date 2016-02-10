@@ -12,6 +12,8 @@ Route::group(['middleware' => 'auth.admin'], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::resource('sets', 'SetController');
+
     Route::resource('categories', 'CategoryController', ['only' => ['index']]);
     Route::resource('words', 'WordController', ['only' => ['index']]);
     Route::resource('lessons', 'LessonController');
