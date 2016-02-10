@@ -29,6 +29,16 @@ class SetController extends Controller
         ]);
     }
 
+    public function home()
+    {
+
+        return view('sets.home', [
+            'sets' => Set::all(),
+            'user' => $this->user,
+            'title' => 'Sets',
+        ]);
+    }
+
     public function create()
     {
         return view('sets.create', [
@@ -46,6 +56,7 @@ class SetController extends Controller
                 'set' => $set,
                 'title' => 'Edit set',
                 'user' => $this->user,
+                'categories' => $this->categories,
             ]);
         } catch (ModelNotFoundException $e) {
             \Session::flash('flash_error', 'Edit failed. The set cannot be found.');

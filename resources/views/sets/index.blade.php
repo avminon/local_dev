@@ -1,44 +1,32 @@
-@extends('app')
+@extends('sets.home')
 @section('title')
     {{ $title }}
 @endsection
-@section('content')
-    <p>
-        {!! link_to_route('sets.create', 'Create new set') !!}
-    </p>
+@section('set_content')
+
     @foreach ($sets as $set)
     <div class="list-group">
-        <div class="list-group-item">
-            <table>
-                <tr>
-                    <td rowspan ='3' colspan='1'>
-                        <p>
-                            {!! Html::image(config()->get('paths.set_image') . $set->image, $set->name,
-                                ['class' => 'thumbnail'])
-                            !!}
-                        </p>
-                    </td>
-                    <td>
-                         <p><h3><u>{{ $set->name }}</u></h3> (No. of Words added to this set: {{ $set->getCountWords() }})</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>{{ $set->description }}</p>
-                    </td>
-                </tr>
-            @if ($user->isAdmin())
-                <tr>
-                    <td>
-                        {!! link_to_route('sets.edit', 'Edit', [$set->id]) !!}
-                        {!! Form::open(['method' => 'delete', 'route' => ['sets.destroy', $set->id]]) !!}
-                            {!! Form::submit('Delete') !!}
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
+            <div class="col-md-2">
+                {!! Html::image(config()->get('paths.set_image') . $set->image, 'aaa'.$set->id,
+                        ['class' => 'thumbnail'])
+                !!}
+            </div>
+            <div class="col-md-10">
+                <p><h3><u>{{ $set->name }}</u></h3> (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
+                <p>{{ $set->description }}</p>
+            <br />
+            {!! link_to_route('terms.list', 'View terms', [$set->id]) !!}
+            <br />
+             @if (($user->isAdmin()) || ($set->user_id == $user->id))
+                {!! link_to_route('terms.create', 'Add new term/s', [$set->id]) !!}
+                <br />
+                {!! link_to_route('sets.edit', 'Edit', [$set->id]) !!}
+                <br />
+                {!! Form::open(['method' => 'delete', 'route' => ['sets.destroy', $set->id]]) !!}
+                    {!! Form::submit('Delete') !!}
+                {!! Form::close() !!}
             @endif
-            </table>
-        </div>
+            </div>
     </div>
     @endforeach
 @endsection

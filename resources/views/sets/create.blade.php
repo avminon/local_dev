@@ -6,6 +6,7 @@
     {!! Form::open(['method' => 'post', 'route' => 'sets.store', 'files' => 'true']) !!}
         {{ csrf_field() }}
         <div class="form-group">
+            {!! Form::hidden('userId',$user->id) !!}
             {!! Form::text('set_name', '', [
                 'required' => 'required',
                 'placeholder' => 'Enter title here',
@@ -26,18 +27,18 @@
                     <tr>
                         <td>Available to:</td>
                         <td>
-                            {!! Form::select('available', [
-                                    'Everyone',
-                                    'Only Me',
-                                    'My Followers',
-                                    'Users I Follow'
+                            {!! Form::select('availability', [
+                                    '0' => 'Everyone',
+                                    '1' => 'Only Me',
+                                    '2' => 'My Followers',
+                                    '3' => 'Users I Follow'
                                 ])
                             !!}
                         </td>
                     </tr>
                     <tr>
                         <td>Category:</td>
-                        <td>{!! Form::select('category', $categories->toArray()) !!}</td>
+                        <td>{!! Form::select('category', $categories) !!}</td>
                     </tr>
                 </table>
             </div>
@@ -48,11 +49,11 @@
                 <table>
                     <tr>
                         <td>Question:</td>
-                        <td>{!! Form::select('questionLanguage', $categories->toArray()) !!}</td>
+                        <td>{!! Form::select('questionLanguage', $categories) !!}</td>
                     </tr>
                     <tr>
                         <td>Answer:</td>
-                        <td>{!! Form::select('answerLanguage', $categories->toArray()) !!}</td>
+                        <td>{!! Form::select('answerLanguage', $categories) !!}</td>
                     </tr>
                 </table>
 

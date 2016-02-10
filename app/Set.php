@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
+    const NO_SETS = 0;
 
     protected $guarded = [];
 
@@ -32,6 +33,11 @@ class Set extends Model
         return $this->hasMany(Result::class, 'set_Id');
     }
 
+    public function getImageAttribute($values)
+    {
+        return (!empty($values)) ? $values : 'noimage.png';
+    }
+
     public function assign($values)
     {
         if (!is_null($values->input('category_id'))) {
@@ -39,8 +45,11 @@ class Set extends Model
         }
 
         $path = config()->get('paths.set_path');
+        $this->user_id = $values->input('userId');
         $this->name = $values->input('set_name');
         $this->description = $values->input('set_desc');
+        $this->category_id = $values->input('category');
+        $this->availability = $values->input('availability');
         $this->question_language = $values->input('questionLanguage');
         $this->answer_language = $values->input('answerLanguage');
 
@@ -50,5 +59,10 @@ class Set extends Model
             $values->file('set_image')->move($path, $imageName);
         }
         $this->save();
+    }
+
+    public function getCountTerms()
+    {
+        return $this->terms()->count();
     }
 }
