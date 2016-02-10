@@ -47,13 +47,16 @@
                                 {!! link_to('categories/', 'Categories') !!}
                             </li>
                         @else
-                            <li>
+                            <!-- <li>
                                 {!! link_to('lessons/', 'Lessons') !!}
-                            </li>
+                            </li> -->
                             <li>
                             {!! link_to('activities', 'Activities') !!}
                             </li>
                         @endif
+                        <li>
+                            {!! link_to('sets/', 'Sets') !!}
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (auth()->guest())
