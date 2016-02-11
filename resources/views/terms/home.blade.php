@@ -7,18 +7,10 @@
                 <h4>My Card Sets</h4>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <span class='glyphicon glyphicon-plus'></span>
                         {!! link_to_route('sets.create', 'Create new set') !!}
                     </li>
-                    <li class="list-group-item">
-                        <span class='glyphicon glyphicon-education'></span>
-                        {!! link_to_route('sets.create', 'Studying') !!}
-
-                    </li>
-                    <li class="list-group-item">
-                        <span class='glyphicon glyphicon-gift'></span>
-                        Created
-                    </li>
+                    <li class="list-group-item">Studying</li>
+                    <li class="list-group-item">Created</li>
                 </ul>
                 <h4>More Sets</h4>
                 <ul class="list-group">

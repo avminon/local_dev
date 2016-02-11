@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Config;
 use Illuminate\Database\Eloquent\Model;
 
 class Term extends Model
@@ -24,5 +25,10 @@ class Term extends Model
     public function assign($values)
     {
 
+        $this->set_id = $values->input('set_id');
+        $this->question = $values->input('term_question');
+        $this->answer = $values->input('term_answer');
+
+        $this->save();
     }
 }

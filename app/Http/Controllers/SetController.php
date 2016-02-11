@@ -99,6 +99,22 @@ class SetController extends Controller
         return redirect('/sets');
     }
 
+    public function show($id)
+    {
+        try {
+            $set = Set::findOrFail($id);
+            return view('sets.show', [
+                'set' => $set,
+                'title' => 'Show set',
+                'user' => $this->user,
+                'categories' => $this->categories,
+            ]);
+        } catch (ModelNotFoundException $e) {
+            \Session::flash('flash_error', 'Show failed. The set cannot be found.');
+        }
+        return redirect('/sets');
+    }
+
     public function store(Request $request)
     {
         try {
