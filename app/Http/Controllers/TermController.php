@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Set;
+use App\Studying;
 use App\Term;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,6 +31,7 @@ class TermController extends Controller
 
     public function listTerms($id)
     {
+        $studying = Studying::where('set_id', $id)->where('user_id', $this->user->id)->first();
         $set = Set::findOrFail($id);
 
         return view('terms.list', [
@@ -37,6 +39,7 @@ class TermController extends Controller
             'terms' => Term::where('set_id', $set->id)->get(),
             'user' => $this->user,
             'title' => 'Terms from Set',
+            'studying' => $studying,
         ]);
     }
 
