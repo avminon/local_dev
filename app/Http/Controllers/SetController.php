@@ -6,8 +6,10 @@ use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Set;
 use App\User;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Session;
 
 class SetController extends Controller
 {
@@ -18,40 +20,53 @@ class SetController extends Controller
     {
         parent::__construct();
         $this->categories = Category::lists('name', 'id');
+        session()->keep('setId');
+        session()->keep('maxQuestions');
+        session()->keep('questionIndex');
+        session()->keep('termCount');
+        session()->keep('setName');
     }
 
     public function index()
     {
-        $sets = Set::paginate(Set::NUMBER_SET);
+        $sets = Set::all();
+
         $includeArray = [];
+
         foreach ($sets as $key => $set) {
+            $isFollower = Follow::where('follower_id', $this->user->id)
+                ->where('followee_id', $set->user_id)
+                ->first();
+            $isFollowee = Follow::where('followee_id', $this->user->id)
+                ->where('follower_id', $set->user_id)
+                ->first();
             switch ($set->availability) {
                 case Set::AVAILABILITY_0:
                     break;
-                case Set::AVAILABILITY_1: //only me
+                case Set::AVAILABILITY_1:
                     if ($set->user_id != $this->user->id) {
                         $sets = $sets->forget($key);
                     }
                     break;
                 case Set::AVAILABILITY_2:
-                    $isFollower = Follow::where('follower_id', $this->user->id)
-                        ->where('followee_id', $set->user_id)
-                        ->first();
                     if (($set->user_id != $this->user->id) && (is_null($isFollower))) {
                         $sets = $sets->forget($key);
                     }
                     break;
-                case Set::AVAILABILITY_3: //people I follow
-                    $isFollowee = Follow::where('followee_id', $this->user->id)
-                        ->where('follower_id', $set->user_id)
-                        ->first();
+                case Set::AVAILABILITY_3:
                     if (($set->user_id != $this->user->id) && (is_null($isFollowee))) {
                         $sets = $sets->forget($key);
                     }
                     break;
+                case Set::AVAILABILITY_4:
+                    if ($set->user_id != $this->user->id) {
+                        if ((is_null($isFollowee)) && (is_null($isFollower))) {
+                            $sets = $sets->forget($key);
+                        }
+                    }
+                    break;
             }
         }
-
         return view('sets.index', [
             'sets' => $sets,
             'user' => $this->user,
@@ -123,5 +138,28 @@ class SetController extends Controller
             \Session::flash('flash_error', 'Delete failed. The set cannot be found.');
         }
         return redirect('/sets');
+    }
+
+    public function take(Request $request)
+    {
+        try {
+            session()->flash('setId', 0);
+            session()->flash('questionIndex', 0);
+            session()->flash('maxQuestions', 0);
+            session()->flash('setName', $request->setName);
+            session()->flash('termCount', $request->termCount);
+            $set = Set::findOrFail($request->setId);
+            if ($set->getTerms($request->setId, $this->user->id)) {
+                session()->flash('setId', $set->id);
+                return redirect('/quiz');
+            }
+        } catch (Exception $e) {
+            dd('CATCH ERROR');
+            session()->flash('flash_error', 'Set quiz failed. Please try again.');
+            return redirect()->back();
+        }
+        dd('SET ERROR');
+        return redirect('sets');
+
     }
 }

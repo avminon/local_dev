@@ -33,7 +33,8 @@
                                         '0' => 'Everyone',
                                         '1' => 'Only Me',
                                         '2' => 'My Followers',
-                                        '3' => 'Users I Follow'
+                                        '3' => 'Users I Follow',
+                                        '4' => 'All Connections'
                                     ], $set->availability)
                                 !!}
                             </td>

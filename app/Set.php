@@ -2,15 +2,20 @@
 
 namespace App;
 
+use App\Result;
+use App\Term;
 use Config;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
+
     const AVAILABILITY_0 = 0;
     const AVAILABILITY_1 = 1;
     const AVAILABILITY_2 = 2;
     const AVAILABILITY_3 = 3;
+    const AVAILABILITY_4 = 4;
     const NUMBER_SET = 5;
 
     protected $guarded = [];
@@ -68,5 +73,27 @@ class Set extends Model
     public function getCountTerms()
     {
         return $this->terms()->count();
+    }
+
+    public function getTerms($setId, $userId)
+    {
+        $terms = Term::where('set_id', $setId)
+            ->orderBy(DB::raw('RAND()'))
+            ->get();
+        $resultsToInsert = [];
+        foreach ($terms as $term) {
+            $resultsToInsert[] = [
+                'set_id' => intval($setId),
+                'term_id' => $term->id,
+            ];
+        }
+        try {
+            $this->Result = new Result;
+            $this->Result->insert($resultsToInsert);
+            return true;
+
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
