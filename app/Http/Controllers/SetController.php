@@ -27,6 +27,22 @@ class SetController extends Controller
         session()->keep('setName');
     }
 
+    public function listCustom($id)
+    {
+
+        if ($id == 'new') {
+            $sets = Set::orderBy('id', 'DESC')->take(2)->get();
+        } else {
+            $sets = Set::where('user_id', $id)->get();
+        }
+
+        return view('sets.index', [
+            'sets' => $sets,
+            'user' => $this->user,
+            'title' => 'Sets You Created',
+        ]);
+    }
+
     public function index()
     {
         $sets = Set::all();

@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/sets/{id}/terms/create/', ['as' => 'terms.create', 'uses' => 'TermController@create']);
     Route::get('/sets/{id}/terms/list/', ['as' => 'terms.list', 'uses' => 'TermController@listTerms']);
+    Route::get('/sets/user/{id}/list/', ['as' => 'sets.user.created', 'uses' => 'SetController@listCustom']);
 
     Route::resource('categories', 'CategoryController', ['only' => ['index']]);
     Route::resource('words', 'WordController', ['only' => ['index']]);

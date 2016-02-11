@@ -13,17 +13,16 @@
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-education'></span>
                         {!! link_to_route('sets.create', 'Studying') !!}
-
                     </li>
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-gift'></span>
-                        Created
+                        {!! link_to_route('sets.user.created', 'Created', [$user->id]) !!}
                     </li>
                 </ul>
                 <h4>More Sets</h4>
                 <ul class="list-group">
                     <li class="list-group-item">Recommended Sets</li>
-                    <li class="list-group-item">New Sets</li>
+                    <li class="list-group-item">{!! link_to_route('sets.user.created', 'New Sets', ['new']) !!}</li>
                     <li class="list-group-item">Popular Sets</li>
                 </ul>
             </div>
