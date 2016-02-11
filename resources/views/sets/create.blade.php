@@ -32,6 +32,7 @@
                                     '1' => 'Only Me',
                                     '2' => 'My Followers',
                                     '3' => 'Users I Follow'
+                                    '4' => 'All Connections'
                                 ])
                             !!}
                         </td>

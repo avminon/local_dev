@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Word;
+use App\Set;
 use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
