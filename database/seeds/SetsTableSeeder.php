@@ -18,33 +18,54 @@ class SetsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'category_id' => 2,
-                'name' => $this->generateRandomString($length),
+                'name' => 'Things at the park.',
                 'image' => '',
                 'question_language' => '',
                 'answer_language' => '',
                 'description' => $this->generateRandomString($length),
-                'availability' => $this->generateRandomString($length),
+                'availability' => $this->generateWord($length),
             ],
             [
                 'user_id' => 2,
                 'category_id' => 2,
-                'name' => $this->generateRandomString($length),
+                'name' => 'Things you see at home.',
                 'image' => '',
                 'question_language' => '',
                 'answer_language' => '',
                 'description' => $this->generateRandomString($length),
-                'availability' => $this->generateRandomString($length),
+                'availability' => $this->generateWord($length),
             ],
             [
-
                 'user_id' => 2,
                 'category_id' => 4,
-                'name' => $this->generateRandomString($length),
+                'name' => 'Television shows.',
                 'image' => '',
                 'question_language' => '',
                 'answer_language' => '',
                 'description' => $this->generateRandomString($length),
-                'availability' => $this->generateRandomString($length),
+                'availability' => $this->generateWord($length),
+
+            ],
+            [
+                'user_id' => 1,
+                'category_id' => 3,
+                'name' => 'Famous food',
+                'image' => '',
+                'question_language' => '',
+                'answer_language' => '',
+                'description' => $this->generateRandomString($length),
+                'availability' => $this->generateWord($length),
+
+            ],
+            [
+                'user_id' => 1,
+                'category_id' => 2,
+                'name' => 'Riding the train',
+                'image' => '',
+                'question_language' => '',
+                'answer_language' => '',
+                'description' => $this->generateRandomString($length),
+                'availability' => $this->generateWord($length),
 
             ],
         ];
@@ -56,6 +77,18 @@ class SetsTableSeeder extends Seeder
     {
         $faker = Faker::create();
         return $faker->paragraph;
+    }
+
+    protected function generateSentence($length)
+    {
+        $faker = Faker::create();
+        return $faker->sentence;
+    }
+
+    protected function generateWord($length)
+    {
+        $faker = Faker::create();
+        return $faker->word;
     }
 
 }

@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ActivitiesTableSeeder::class);
         $this->call(FollowsTableSeeder::class);
         $this->call(SetsTableSeeder::class);
+        $this->call(TermsTableSeeder::class);
         Model::reguard();
     }
+
 }

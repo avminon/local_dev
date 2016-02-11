@@ -7,12 +7,12 @@
     @foreach ($sets as $set)
     <div class="list-group">
             <div class="col-md-2">
-                {!! Html::image(config()->get('paths.set_image') . $set->image, 'image'.$set->id,
+                {!! Html::image(config()->get('paths.set_image') . $set->image, 'img'.$set->id,
                         ['class' => 'thumbnail'])
                 !!}
             </div>
-            <div class="col-md-2">
-                {!! link_to_route('sets.show', 'View', [$set->id]) !!}
+	    <div class="col-md-2">
+                {!! link_to_route('terms.list', 'View', [$set->id]) !!}
                 <!-- @if($set->getCountTerms())
                     <br />
                     {!! Form::open(['method' => 'get', 'route' => 'take']) !!}

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ trans('common.main.page_title') }}</title>
 
-        <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/app.css?').rand(1,1000) }}" rel="stylesheet">
 
         <!-- Fonts -->
         <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -41,7 +41,7 @@
                         </li>
                         <!-- <li>
                             {!! link_to('words/', 'Words') !!}
-                        </li> -->
+                        </li>
                         @if ((!auth()->guest()) && ($user->isAdmin()))
                             <li>
                                 {!! link_to('categories/', 'Categories') !!}
@@ -89,7 +89,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2>@yield('title')</h2>
+                            <h3>@yield('title')</h3>
                             @yield('title-meta')
                         </div>
                         <div class="panel-body">
