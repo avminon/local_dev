@@ -34,8 +34,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'UserController@index']);
     Route::get('/home', ['as' => 'home', 'uses' => 'UserController@index']);
 
-    Route::get('/sets-home', ['as' => 'sets.index', 'uses' => 'SetController@index']);
-
     Route::get('/activities', ['as' => 'activities', 'uses' => 'UserController@activities']);
 
     Route::get('/change-password', ['as' => 'users.change.password', 'uses' => 'UserController@changePassword']);

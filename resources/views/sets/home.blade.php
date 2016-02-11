@@ -21,9 +21,7 @@
             </div>
         </div>
         <div class="col-md-8 naid">
-<!--ZZZAAA1-->
             @yield('set_content')
-<!--AAA2-->
         </div>
         <div class="col-md-2">
             <div class="panel-body text-center">

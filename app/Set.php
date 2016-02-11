@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
-    const NO_SETS = 0;
+    const AVAILABILITY_0 = 0;
+    const AVAILABILITY_1 = 1;
+    const AVAILABILITY_2 = 2;
+    const AVAILABILITY_3 = 3;
+    const NUMBER_SET = 5;
 
     protected $guarded = [];
 
@@ -30,7 +34,7 @@ class Set extends Model
 
     public function results()
     {
-        return $this->hasMany(Result::class, 'set_Id');
+        return $this->hasMany(Result::class, 'set_id');
     }
 
     public function getImageAttribute($values)

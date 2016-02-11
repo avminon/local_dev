@@ -11,11 +11,8 @@
                         ['class' => 'thumbnail'])
                 !!}
             </div>
-            <div class="col-md-10">
-                <p><h3><u>{{ $set->name }}</u></h3> (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
-                <p>{{ $set->description }}</p>
-            <br />
-            {!! link_to_route('terms.list', 'View terms', [$set->id]) !!}
+            <div class="col-md-2">
+                {!! link_to_route('terms.list', 'View terms', [$set->id]) !!}
             <br />
              @if (($user->isAdmin()) || ($set->user_id == $user->id))
                 {!! link_to_route('terms.create', 'Add new term/s', [$set->id]) !!}
@@ -27,6 +24,12 @@
                 {!! Form::close() !!}
             @endif
             </div>
+            <div class="col-md-8">
+                <p><h3><u>{{ $set->name }}</u></h3> (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
+                <p>{{ $set->description }}</p>
+            <hr />
+            </div>
     </div>
     @endforeach
+    {!! $sets->render() !!}
 @endsection
