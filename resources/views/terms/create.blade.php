@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-    {{ $title }} for {{ $set->name}}
+    {{ $title }} for {!! link_to_route('terms.list', $set->name, [$set->id]) !!}
 @endsection
 @section('content')
     {!! Form::open(['method' => 'post', 'route' => 'terms.store', 'files' => 'true']) !!}
