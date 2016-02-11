@@ -7,21 +7,21 @@
         <div class="panel-body">
             <div class="col-md-3">
                 {!! Form::hidden('userId',$set->user_id) !!}
-                {!! Html::image(config()->get('paths.set_image') . $set->image, $set->name,
-                            ['class' => 'thumbnail'])
+                {!! Html::image(config()->get('paths.set_image') . $set->image, 'image'.$set->id,
+                    ['class' => 'thumbnail'])
                 !!}
                 {!! Form::file('set') !!}
             </div>
             <div class="col-md-4">
                 {!! Form::text('set_name', $set->name, [
-                            'required' => 'required',
-                            'placeholder' => 'Enter title here',
-                            'class' => 'form-control'])
+                        'required' => 'required',
+                        'placeholder' => 'Enter title here',
+                        'class' => 'form-control'])
                 !!}
                 {!! Form::textarea('set_desc', $set->description, [
-                            'required' => 'required',
-                            'class' => 'form-control'])
-                        !!}
+                        'required' => 'required',
+                        'class' => 'form-control'])
+                !!}
             </div>
             <div class="col-md-4">
                 <div class="panel-body text-left">
@@ -29,7 +29,7 @@
                         <tr>
                             <td>Available to:</td>
                             <td>
-                                {!! Form::select('available', [
+                                {!! Form::select('availability', [
                                         '0' => 'Everyone',
                                         '1' => 'Only Me',
                                         '2' => 'My Followers',

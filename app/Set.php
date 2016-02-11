@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
+    const AVAILABILITY_0 = 0;
+    const AVAILABILITY_1 = 1;
+    const AVAILABILITY_2 = 2;
+    const AVAILABILITY_3 = 3;
+    const NUMBER_SET = 5;
 
     protected $guarded = [];
 

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Set;
 use App\User;
@@ -21,9 +22,38 @@ class SetController extends Controller
 
     public function index()
     {
+        $sets = Set::paginate(Set::NUMBER_SET);
+        $includeArray = [];
+        foreach ($sets as $key => $set) {
+            switch ($set->availability) {
+                case Set::AVAILABILITY_0:
+                    break;
+                case Set::AVAILABILITY_1: //only me
+                    if ($set->user_id != $this->user->id) {
+                        $sets = $sets->forget($key);
+                    }
+                    break;
+                case Set::AVAILABILITY_2:
+                    $isFollower = Follow::where('follower_id', $this->user->id)
+                        ->where('followee_id', $set->user_id)
+                        ->first();
+                    if (($set->user_id != $this->user->id) && (is_null($isFollower))) {
+                        $sets = $sets->forget($key);
+                    }
+                    break;
+                case Set::AVAILABILITY_3: //people I follow
+                    $isFollowee = Follow::where('followee_id', $this->user->id)
+                        ->where('follower_id', $set->user_id)
+                        ->first();
+                    if (($set->user_id != $this->user->id) && (is_null($isFollowee))) {
+                        $sets = $sets->forget($key);
+                    }
+                    break;
+            }
+        }
 
         return view('sets.index', [
-            'sets' => Set::all(),
+            'sets' => $sets,
             'user' => $this->user,
             'title' => 'Sets',
         ]);
