@@ -5,6 +5,7 @@ use App\Category;
 use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Set;
+use App\Studying;
 use App\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -176,6 +177,19 @@ class SetController extends Controller
         }
         dd('SET ERROR');
         return redirect('sets');
+    }
 
+    public function studySet(Request $request)
+    {
+        $studying = new Studying;
+        $studying->addStudy($request->setId, $this->user->id);
+        return redirect('/sets/' . $request->setId . '/terms/list');
+    }
+
+    public function unStudySet(Request $request)
+    {
+        $studying = new Studying;
+        $studying->removeStudy($request->setId, $this->user->id);
+        return redirect('/sets/' . $request->setId . '/terms/list');
     }
 }

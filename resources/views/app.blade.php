@@ -41,7 +41,7 @@
                         </li>
                         <!-- <li>
                             {!! link_to('words/', 'Words') !!}
-                        </li>
+                        </li> -->
                         @if ((!auth()->guest()) && ($user->isAdmin()))
                             <li>
                                 {!! link_to('categories/', 'Categories') !!}

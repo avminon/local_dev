@@ -5655,7 +5655,7 @@ tbody.collapse.in {
 
 .navbar-default {
     background-color: #382f60;
-    border-color: #382f60;      
+    border-color: #382f60;
   }
 
 .navbar-default .navbar-brand {
@@ -5910,7 +5910,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 
 .breadcrumb > li + li:before {
-  content: "/Â ";
+  content: "/ ";
   padding: 0 5px;
   color: #ccc;
 }
@@ -6280,11 +6280,12 @@ a.badge:focus {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.428571429;
-  min-height:80px; 
+  min-height:80px;
   min-width:80px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
+  max-width:90px;
   transition: border 0.2s ease-in-out;
 }
 
@@ -6800,8 +6801,8 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-body {
-  padding: 15px;  
-  background-color: #93b1c6;  
+  padding: 15px;
+  background-color: #93b1c6;
 }
 
 .panel-body:before,
@@ -6810,7 +6811,7 @@ button.list-group-item-danger.active:focus {
   display: table;
 }
 
-.panel-body:after {  
+.panel-body:after {
   clear: both;
 }
 
