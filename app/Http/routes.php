@@ -13,7 +13,7 @@ Route::group(['middleware' => 'auth.admin'], function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('sets', 'SetController');
-    Route::get('/set/take', [
+    Route::get('/sets/take', [
         'as' => 'take',
         'uses' => 'SetController@take',
     ]);
@@ -21,6 +21,9 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'sets.quiz',
         'uses' => 'ResultController@index',
     ]);
+
+    Route::get('study', ['as' => 'sets.study', 'uses' => 'SetController@studySet']);
+    Route::get('unstudy', ['as' => 'sets.unstudy', 'uses' => 'SetController@unstudySet']);
 
     Route::resource('terms', 'TermController');
 
