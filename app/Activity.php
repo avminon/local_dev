@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Activity extends Model
 {
+    const NO_ACTIVITY = 0;
+
     protected $guarded = [];
 
     protected $fillable = ['lesson_id', 'user_id', 'activity', 'type'];

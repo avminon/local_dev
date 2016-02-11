@@ -12,6 +12,11 @@ Route::group(['middleware' => 'auth.admin'], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::resource('sets', 'SetController');
+    Route::resource('terms', 'TermController');
+    Route::get('/terms/list/{id}', ['as' => 'terms.list', 'uses' => 'TermController@listTerms']);
+    Route::get('/terms/create/{id}', ['as' => 'terms.create', 'uses' => 'TermController@createTerms']);
+
     Route::resource('categories', 'CategoryController', ['only' => ['index']]);
     Route::resource('words', 'WordController', ['only' => ['index']]);
     Route::resource('lessons', 'LessonController');
@@ -29,16 +34,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', ['as' => 'home', 'uses' => 'UserController@index']);
     Route::get('/home', ['as' => 'home', 'uses' => 'UserController@index']);
 
+    Route::get('/sets-home', ['as' => 'sets.index', 'uses' => 'SetController@index']);
+
     Route::get('/activities', ['as' => 'activities', 'uses' => 'UserController@activities']);
 
     Route::get('/change-password', ['as' => 'users.change.password', 'uses' => 'UserController@changePassword']);
     Route::patch('/update-password', ['as' => 'users.update.password', 'uses' => 'UserController@updatePassword']);
 
     Route::get('/users/list', ['as' => 'users.list', 'uses' => 'UserController@listUsers']);
+    Route::get('/users/filter', ['as' => 'users.filter', 'uses' => 'UserController@filterUsers']);
+
     Route::get('/follow/{id}', ['as' => 'user.follow', 'uses' => 'UserController@followUser']);
     Route::get('/unfollow/{id}', ['as' => 'user.unfollow', 'uses' => 'UserController@unFollowUser']);
 
     Route::get('/users/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit']);
     Route::patch('/users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
+
+    Route::get('/users/show/{id}', 'UserController@show');
 
 });

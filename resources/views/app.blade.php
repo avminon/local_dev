@@ -20,7 +20,7 @@
     </head>
     <body>
         <nav class="navbar navbar-default">
-            <div class="container-fluid">
+            <div class="container-fluid ">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Navigation</span>
@@ -37,6 +37,9 @@
                             {!! link_to('/home', 'Home') !!}
                         </li>
                         <li>
+                            {!! link_to('users/list', 'Users') !!}
+                        </li>
+                        <li>
                             {!! link_to('words/', 'Words') !!}
                         </li>
                         @if ((!auth()->guest()) && ($user->isAdmin()))
@@ -44,15 +47,15 @@
                                 {!! link_to('categories/', 'Categories') !!}
                             </li>
                         @else
-                            <li>
+                            <!-- <li>
                                 {!! link_to('lessons/', 'Lessons') !!}
+                            </li> -->
+                            <li>
+                            {!! link_to('activities', 'Activities') !!}
                             </li>
                         @endif
                         <li>
-                            {!! link_to('users/list', 'Users') !!}
-                        </li>
-                        <li>
-                            {!! link_to('activities', 'Activities') !!}
+                            {!! link_to('sets/', 'Sets') !!}
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
@@ -68,7 +71,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ auth()->user()->name }} <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                        {!! link_to('user/' . auth()->id(), 'My Profile') !!}
+                                        {!! link_to_route('users.edit', 'Update Profile') !!}
                                     </li>
                                     <li>
                                         {!! link_to('/auth/logout', 'Logout') !!}
@@ -83,8 +86,7 @@
 
         <div class="container">
             @include('shared.flash_message')
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2>@yield('title')</h2>
@@ -95,9 +97,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-12 ">
                     <p>Copyright &copy; 2016 | <a href="framgia.com/jp">Framgia</a></p>
                 </div>
             </div>

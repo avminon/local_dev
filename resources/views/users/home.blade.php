@@ -8,26 +8,42 @@
     <div class="panel-body">
         <div class="col-md-3">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-heading text-center">Welcome {{ $user->email }}!</h4>
-                </div>
                 <div class="panel-body text-center">
-                    {!! Html::image(
-                        config()->get('paths.user_image') . $user->avatar,
-                        $user->name,
-                        ['class' => 'thumbnail'])
-                    !!}
+                    <table>
+                        <tr>
+                            <td>
+                                {!! Html::image(config()->get('paths.user_image') . $user->avatar, $user->name, [
+                                        'class' => 'thumbnail',
+                                        'alt' => $user->name,
+                                        'title' => $user->name
+                                    ])
+                                !!}
+                            </td>
+                            <td>{{ $user->name }}</td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="panel-footer text-center">
-                    {!! link_to_route('users.edit', 'Update Profile') !!}
+                    <table>
+                        <tr>
+                            <th>Words Learned</th><td>&nbsp;</td><td>{{ count($lessonWords) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Followers</th><td>&nbsp;</td><td>{{ count($user->followees) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Following</th><td>&nbsp;</td><td>{{ count($user->followers) }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
         <div class="col-md-9">
-            {!! link_to('words/', 'Words') !!}
-            {!! link_to('categories/', 'Lesson') !!}
             <h2>Activities</h2>
             <table class="col-md-9">
+                @if (count($activities) == App\Activity::NO_ACTIVITY)
+                    <thead><tr>No Activities Found</tr></thead>
+                @else
                 <thead>
                     <tr>
                         <th class="col-md-3">Date</th>
@@ -36,12 +52,14 @@
                 </thead>
                 <tbody>
                     @foreach ($activities as $activity)
+
                         <tr>
                             <td>{{ $activity->created_at }}</td>
                             <td>{{ $activity->activity }}</td>
                         </tr>
                     @endforeach
                 </tbody>
+                @endif
             </table>
             <hr>
         </div>

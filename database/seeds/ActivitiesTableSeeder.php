@@ -1,5 +1,6 @@
 <?php
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
@@ -85,6 +86,7 @@ class ActivitiesTableSeeder extends Seeder
 
     protected function generateRandomString($length)
     {
-        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ , .", 0, $length);
+        $faker = Faker::create();
+        return $faker->paragraph;
     }
 }
