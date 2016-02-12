@@ -17,6 +17,8 @@ class Set extends Model
     const AVAILABILITY_4 = 4;
     const NUMBER_SET = 5;
     const NO_SETS = 0;
+    const NOT_RECOMMENDED = 0;
+    const RECOMMENDED = 1;
 
     protected $guarded = [];
 
@@ -96,4 +98,16 @@ class Set extends Model
             return false;
         }
     }
+
+    // public function addToRecommended($setId)
+    // {
+    //     $this->recommended = Set::RECOMMENDED;
+    //     $this->save;
+    // }
+
+    // public function removeFromRecommended($setId)
+    // {
+    //     $this->recommended = Set::NOT_RECOMMENDED;
+    //     $this->save;
+    // }
 }
