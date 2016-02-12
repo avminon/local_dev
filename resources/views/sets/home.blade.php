@@ -11,19 +11,29 @@
                         {!! link_to_route('sets.create', 'Create new set') !!}
                     </li>
                     <li class="list-group-item">
-                        <span class='glyphicon glyphicon-education'></span>
-                        {!! link_to_route('sets.create', 'Studying') !!}
+                        <span class='glyphicon glyphicon-book'></span>
+                        {!! link_to_route('sets.user.list', 'Studying', [$user->id, 'studying']) !!}
                     </li>
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-gift'></span>
-                        {!! link_to_route('sets.user.created', 'Created', [$user->id]) !!}
+                        {!! link_to_route('sets.user.list', 'Created', [$user->id, 'created']) !!}
                     </li>
                 </ul>
                 <h4>More Sets</h4>
                 <ul class="list-group">
-                    <li class="list-group-item">Recommended Sets</li>
-                    <li class="list-group-item">{!! link_to_route('sets.user.created', 'New Sets', ['new']) !!}</li>
-                    <li class="list-group-item">Popular Sets</li>
+                    <li class="list-group-item">
+                        <span class='glyphicon glyphicon-thumbs-up'></span>
+                        {!! link_to_route('sets.user.list', 'Recommended', [$user->id, 'recommended']) !!}
+
+                    </li>
+                    <li class="list-group-item">
+                        <span class='glyphicon glyphicon-new-window'></span>
+                        {!! link_to_route('sets.user.list', 'New Sets', [$user->id, 'new']) !!}
+                    </li>
+                    <li class="list-group-item">
+                        <span class='glyphicon glyphicon-star'></span>
+                        {!! link_to_route('sets.user.list', 'Popular Sets', [$user->id, 'recommended']) !!}
+                    </li>
                 </ul>
             </div>
         </div>
@@ -34,19 +44,21 @@
         </div>
         <div class="col-md-2">
             <div class="panel-body text-center">
-                <h4>My Card Sets</h4>
+                <h4><span class='glyphicon glyphicon-thumbs-up'></span>Recommended Sets</h4>
                 <ul class="list-group">
+                    @foreach ($recommendedSets as $set)
                     <li class="list-group-item">
-                        {!! link_to_route('sets.create', 'Create new set') !!}
+                        {!! link_to_route('terms.list', $set->name, [$set->id]) !!}
                     </li>
-                    <li class="list-group-item">Studying</li>
-                    <li class="list-group-item">Created</li>
+                    @endforeach
                 </ul>
-                <h4>More Sets</h4>
+                <h4><span class='glyphicon glyphicon-book'></span>Studying Sets</h4>
                 <ul class="list-group">
-                    <li class="list-group-item">Recommended Sets</li>
-                    <li class="list-group-item">New Sets</li>
-                    <li class="list-group-item">Popular Sets</li>
+                    @foreach ($popularSets as $set)
+                    <li class="list-group-item">
+                        {!! link_to_route('terms.list', $set->name, [$set->id]) !!}
+                    </li>
+                    @endforeach
                 </ul>
             </div>
         </div>

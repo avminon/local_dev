@@ -44,4 +44,32 @@ class Follow extends Model
 
         return $followeeIds;
     }
+
+    public function isFollower($userId, $checkId)
+    {
+        $followeeIds = Follow::where('follower_id', $userId)->where('followee_id', $checkId)->get();
+
+        return $followeeIds;
+    }
+    public function isFollowee($userId, $checkId)
+    {
+        $followerIds = Follow::where('followee_id', $userId)->where('follower_id', $checkId)->get();
+
+        return $followerIds;
+    }
+
+    public function getFollowers($userId)
+    {
+        $followerIds = Follow::where('followee_id', $userId)->lists('follower_id');
+
+        return $followerIds;
+    }
+
+    public function getFollowees($userId)
+    {
+        $followeeIds = Follow::where('follower_id', $userId)->lists('followee_id');
+
+        return $followeeIds;
+    }
+
 }
