@@ -66,8 +66,9 @@
                             </td>
                             @else
                             <td>
-
-                                {!! link_to('users/show/' . $followedUser->id,'View') !!}
+                                {!! link_to('users/show/' . $followedUser->id,'View') !!} <br />
+                                {!! link_to_route('users.edit', 'Edit', $followedUser->id) !!} <br />
+                                {!! link_to_route('users.destroy', 'Delete', $followedUser->id) !!}
                             </td>
                             @endif
                         </tr>

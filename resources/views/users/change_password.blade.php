@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     {!! Form::open(['method' => 'patch', 'route' => ['users.update.password']]) !!}
+        {!! Form::hidden('userId', $user->id) !!}
         <table>
             <tr>
                 <td >

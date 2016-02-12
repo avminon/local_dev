@@ -19,13 +19,16 @@
                         <tr>
                             <th># of Categories</th><td>&nbsp;</td><td>{!! link_to('categories', count($categoryList)) !!}</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <th># of Lessons Taken</th><td>&nbsp;</td><td>{{ count($lessonList) }}</td>
+                        </tr> -->
+                        <tr>
+                            <th># of Sets</th><td>&nbsp;</td><td>{!! link_to('sets', count($sets)) !!}</td>
                         </tr>
                     </table>
                 </div>
                 <div class="panel-footer text-center">
-                    {!! link_to('words/create', 'Add New Word') !!}
+                    {!! link_to('sets/create', 'Add New Set') !!}
                     <br />
                     {!! link_to('categories/create', 'Add New Category') !!}
                 </div>

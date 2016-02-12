@@ -12,7 +12,8 @@
                 !!}
             </div>
             <div class="col-md-10">
-                <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></h3> (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
+                <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></p>
+                <p></h3>Category: {{ $set->category_name }} (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
                 <p>{{ $set->description }}</p>
                 <p>
                     @if (is_null($studying))
@@ -39,6 +40,9 @@
                             {!! Form::close() !!}
                         @endif
                     @endif
+                <p/>
+                <p>
+                    {!! link_to_route('terms.create', 'Add Terms', [$set->id]) !!}
                 <p>
             </div>
     </div>

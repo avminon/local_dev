@@ -53,8 +53,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/activities', ['as' => 'activities', 'uses' => 'UserController@activities']);
 
-    Route::get('/change-password', ['as' => 'users.change.password', 'uses' => 'UserController@changePassword']);
-    Route::patch('/update-password', ['as' => 'users.update.password', 'uses' => 'UserController@updatePassword']);
+    Route::get('/change-password/{id}', ['as' => 'users.change.password', 'uses' => 'UserController@changePassword']);
+    Route::patch('/update-password/{id}', ['as' => 'users.update.password', 'uses' => 'UserController@updatePassword']);
 
     Route::get('/users/list', ['as' => 'users.list', 'uses' => 'UserController@listUsers']);
     Route::get('/users/filter', ['as' => 'users.filter', 'uses' => 'UserController@filterUsers']);
@@ -62,9 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/follow/{id}', ['as' => 'user.follow', 'uses' => 'UserController@followUser']);
     Route::get('/unfollow/{id}', ['as' => 'user.unfollow', 'uses' => 'UserController@unFollowUser']);
 
-    Route::get('/users/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit']);
+    Route::get('/users/edit/{id}', ['as' => 'users.edit', 'uses' => 'UserController@edit']);
     Route::patch('/users/update', ['as' => 'users.update', 'uses' => 'UserController@update']);
 
     Route::get('/users/show/{id}', 'UserController@show');
-
+    Route::get('/users/destroy/{id}', ['as' => 'users.destroy', 'uses' => 'UserController@destroy']);
 });
