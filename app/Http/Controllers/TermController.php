@@ -34,6 +34,7 @@ class TermController extends Controller
         $studying = Studying::where('set_id', $id)->where('user_id', $this->user->id)->first();
         $set = Set::findOrFail($id);
 
+        $set->category_name = Category::where('id', $set->category_id)->lists('name')->first();
         return view('terms.list', [
             'set' => $set,
             'terms' => Term::where('set_id', $id)->get(),

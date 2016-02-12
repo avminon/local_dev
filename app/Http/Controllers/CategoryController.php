@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Set;
 use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -12,8 +13,13 @@ class CategoryController extends Controller
 
     public function index()
     {
+        $categories = Category::all();
+        foreach ($categories as $category) {
+            $category->sets = Set::where('category_id', $category->id)->get();
+        }
+
         return view('categories.index', [
-            'categories' => Category::all(),
+            'categories' => $categories,
             'user' => $this->user,
             'title' => 'Categories',
         ]);

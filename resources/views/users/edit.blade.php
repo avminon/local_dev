@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     {!! Form::open(['method' => 'patch', 'route' => ['users.update'], 'files' => true]) !!}
+        {!! Form::hidden('userId', $user->id) !!}
         <table>
             <tr>
                 <td >
@@ -44,7 +45,7 @@
                     &nbsp;
                 </td>
                 <td>
-                    {!! link_to_route('users.change.password', 'Change Password') !!}
+                    {!! link_to_route('users.change.password', 'Change Password', $user->id) !!}
                 </td>
             </tr>
         </table>

@@ -51,6 +51,9 @@ class SetController extends Controller
                 break;
         }
 
+        foreach ($sets as $set) {
+            $set->category_name = Category::where('id', $set->category_id)->lists('name')->first();
+        }
         return view('sets.index', [
             'sets' => $sets,
             'user' => $this->user,
@@ -93,7 +96,9 @@ class SetController extends Controller
                     }
                     break;
             }
+            $set->category_name = Category::where('id', $set->category_id)->lists('name')->first();
         }
+
         return view('sets.index', [
             'sets' => $sets,
             'user' => $this->user,

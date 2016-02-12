@@ -22,6 +22,11 @@ class Category extends Model
         return $this->hasMany(Word::class, 'category_id');
     }
 
+    public function sets()
+    {
+        return $this->hasMany(Set::class, 'category_id');
+    }
+
     public function getImageAttribute($values)
     {
         return (!empty($values)) ? $values : 'noimage.png';
@@ -47,5 +52,10 @@ class Category extends Model
     public function getCountWords()
     {
         return $this->words()->count();
+    }
+
+    public function getCountSets()
+    {
+        return $this->sets()->count();
     }
 }

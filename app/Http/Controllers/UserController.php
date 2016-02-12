@@ -9,6 +9,8 @@ use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Lesson;
 use App\LessonWord;
+use App\Set;
+use App\Studying;
 use App\User;
 use App\Word;
 use Hash;
@@ -29,6 +31,27 @@ class UserController extends Controller
         $view = ($this->user->isAdmin()) ? 'home' : 'users.home';
         $title = trans('common.users.page_title');
         $activity = new Activity;
+
+        $followers = Follow::where('followee_id', $this->user->id)->get();
+        foreach ($followers as $follower) {
+            $follower->name = User::where('id', (intval($follower->follower_id)))->lists('name')->first();
+            $follower->id = User::where('id', (intval($follower->follower_id)))->lists('id')->first();
+        }
+
+        $followees = Follow::where('follower_id', $this->user->id)->get();
+        foreach ($followees as $followee) {
+            $followee->name = User::where('id', (intval($followee->followee_id)))->lists('name')->first();
+            $followee->id = User::where('id', (intval($followee->followee_id)))->lists('id')->first();
+        }
+
+        $setsCreated = Set::where('user_id', $this->user->id)->get();
+
+        $setsStudying = Studying::where('user_id', $this->user->id)->get();
+        foreach ($setsStudying as $set) {
+            $set->name = Set::where('id', $set->set_id)->lists('name')->first();
+            $set->id = Set::where('id', $set->set_id)->lists('id')->first();
+        }
+
         if ($this->user->isAdmin()) {
             $wordList = Word::get();
             $userList = User::get();
@@ -38,11 +61,12 @@ class UserController extends Controller
             return view($view, [
                 'user' => $this->user,
                 'activities' => $activity->getAllUserActivities($this->user->id),
-                'title' => $title . $this->user->id,
+                'title' => 'My Profile',
                 'wordList' => $wordList,
                 'userList' => $userList,
                 'categoryList' => $categoryList,
                 'lessonList' => $lessonList,
+                'sets' => Set::all(),
             ]);
         } else {
             $lessonWords = LessonWord::where('user_id', $this->user->id)->get();
@@ -50,8 +74,12 @@ class UserController extends Controller
             return view($view, [
                 'user' => $this->user,
                 'activities' => $activity->getAllUserActivities($this->user->id),
-                'title' => $title . $this->user->id,
+                'title' => 'My Profile',
                 'lessonWords' => $lessonWords,
+                'followers' => $followers,
+                'followees' => $followees,
+                'setsCreated' => $setsCreated,
+                'setsStudying' => $setsStudying,
             ]);
         }
 
@@ -72,30 +100,55 @@ class UserController extends Controller
         ]);
     }
 
-    public function edit()
+    public function edit($id)
     {
         return view('users.edit', [
-            'title' => 'Edit category',
-            'user' => $this->user,
+            'title' => 'Edit',
+            'user' => User::findOrFail($id),
         ]);
     }
 
     public function show($id)
     {
         $user = User::findOrFail(intval($id));
-        $words = LessonWord::where('user_id', $user->id)->get();
+        // $words = LessonWord::where('user_id', $user->id)->get();
         $activity = new Activity;
+
+        $followers = Follow::where('followee_id', $id)->get();
+        foreach ($followers as $follower) {
+            $follower->name = User::where('id', (intval($follower->follower_id)))->lists('name')->first();
+            $follower->id = User::where('id', (intval($follower->follower_id)))->lists('id')->first();
+        }
+
+        $followees = Follow::where('follower_id', $id)->get();
+        foreach ($followees as $followee) {
+            $followee->name = User::where('id', (intval($followee->followee_id)))->lists('name')->first();
+            $followee->id = User::where('id', (intval($followee->followee_id)))->lists('id')->first();
+        }
+
+        $setsCreated = Set::where('user_id', $id)->get();
+
+        $setsStudying = Studying::where('user_id', $id)->get();
+        foreach ($setsStudying as $set) {
+            $set->name = Set::where('id', $set->set_id)->lists('name')->first();
+            $set->id = Set::where('id', $set->set_id)->lists('id')->first();
+        }
+
         return view('users.show', [
             'title' => $user->name . "'s Profile",
             'activities' => $activity->getAllUserActivities($user->id),
             'user' => $user,
-            'words' => $words,
+            'followers' => $followers,
+            'followees' => $followees,
+            'setsCreated' => $setsCreated,
+            'setsStudying' => $setsStudying,
+            // 'words' => $words,
         ]);
     }
 
     public function update(Request $request)
     {
-        $user = User::findOrFail(intval($this->user->id));
+        $user = User::findOrFail(intval($request->userId));
         $validate = [
             'user_name' => 'required|max:255',
             'user_email' => 'required|max:255',
@@ -107,17 +160,17 @@ class UserController extends Controller
         return redirect('/home');
     }
 
-    public function changePassword()
+    public function changePassword($id)
     {
         return view('users.change_password', [
             'title' => 'Change Password',
-            'user' => $this->user,
+            'user' => User::find($id),
         ]);
     }
 
     public function updatePassword(Request $request)
     {
-        $user = User::findOrFail(intval($this->user->id));
+        $user = User::findOrFail(intval($request->userId));
 
         $validate = [
             'new_password' => 'required|max:255|confirmed',
@@ -217,6 +270,18 @@ class UserController extends Controller
         ];
         \Event::fire(new ActivityEvent($eventData));
 
+        return redirect('/users/list');
+    }
+
+    public function destroy($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+            $user->delete();
+            \Session::flash('flash_success', 'Delete successful!');
+        } catch (ModelNotFoundException $e) {
+            \Session::flash('flash_error', 'Delete failed. The user cannot be found.');
+        }
         return redirect('/users/list');
     }
 
