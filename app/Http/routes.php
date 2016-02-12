@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/sets/{id}/terms/create/', ['as' => 'terms.create', 'uses' => 'TermController@create']);
     Route::get('/sets/{id}/terms/list/', ['as' => 'terms.list', 'uses' => 'TermController@listTerms']);
     Route::get('/sets/user/{id}/{type}/', ['as' => 'sets.user.list', 'uses' => 'SetController@listCustom']);
+    Route::post('/sets/search/', ['as' => 'sets.user.search', 'uses' => 'SetController@searchList']);
 
     Route::resource('categories', 'CategoryController', ['only' => ['index']]);
     Route::resource('words', 'WordController', ['only' => ['index']]);

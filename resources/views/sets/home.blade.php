@@ -1,10 +1,21 @@
 @extends('app')
 @section('content')
 <!--AAA1-->
-    <div class="panel-footer col-md-12">
         <div class="col-md-2">
             <div class="panel-body text-center">
-                <h4>My Card Sets</h4>
+
+                    {!! Form::open(['method' => 'post', 'route' => 'sets.user.search']) !!}
+
+                        {!! Form::hidden('userId', $user->id) !!}
+                        {!! Form::text('search_name', '', [
+                           'placeholder' => 'Search',
+                           'class' => 'form-control'])
+                        !!}
+                        {!! Form::button('Search',['type'=>'submit','class' => 'btn btn-success']) !!}
+
+                    {!! Form::close() !!}
+
+                <h5>My Card Sets</h5>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-plus'></span>
@@ -19,7 +30,7 @@
                         {!! link_to_route('sets.user.list', 'Created', [$user->id, 'created']) !!}
                     </li>
                 </ul>
-                <h4>More Sets</h4>
+                <h5>More Sets</h5>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-thumbs-up'></span>
@@ -32,7 +43,7 @@
                     </li>
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-star'></span>
-                        {!! link_to_route('sets.user.list', 'Popular Sets', [$user->id, 'recommended']) !!}
+                        {!! link_to_route('sets.user.list', 'Popular Sets', [$user->id, 'popular']) !!}
                     </li>
                 </ul>
             </div>
@@ -62,6 +73,6 @@
                 </ul>
             </div>
         </div>
-    </div>
+
 <!--ZZZAAA2-->
 @endsection

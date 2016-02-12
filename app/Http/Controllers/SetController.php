@@ -6,6 +6,7 @@ use App\Follow;
 use App\Http\Controllers\Controller;
 use App\Set;
 use App\Studying;
+use App\Term;
 use App\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -27,7 +28,11 @@ class SetController extends Controller
         session()->keep('termCount');
         session()->keep('setName');
     }
+    public function searchList(Request $request)
+    {
 
+        return $this->listCustom($request->input('userId'), $request->input('search_name'));
+    }
     public function listCustom($id, $type)
     {
         $set = new Set;
@@ -44,9 +49,17 @@ class SetController extends Controller
                 $sets = $set->getRecommendedSets($this->user->id);
                 $title = 'Recommended Sets';
                 break;
+            case 'popular':
+                $sets = $set->getPopularSet($this->user->id);
+                $title = 'Popular Sets';
+                break;
+            case 'new':
+                $sets = $set->getNewSetsForUser($this->user->id);
+                $title = 'New Sets ';
+                break;
 
             default:
-                $sets = $set->getSetsForUser($this->user->id);
+                $sets = $set->getSetsForUser($this->user->id, $type);
                 $title = 'Available Sets';
                 break;
         }
@@ -119,8 +132,12 @@ class SetController extends Controller
     {
         try {
             $set = Set::findOrFail($id);
+
+            $terms = Term::where('set_id', $set->id)->get();
+
             return view('sets.edit', [
                 'set' => $set,
+                'terms' => $terms,
                 'title' => 'Edit set',
                 'user' => $this->user,
                 'categories' => $this->categories,

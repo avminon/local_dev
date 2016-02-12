@@ -1,9 +1,8 @@
 @extends('sets.home')
 @section('title')
-    {{ $title }}
+        {{ $title }}
 @endsection
 @section('set_content')
-
     @foreach ($sets as $set)
     <div class="list-group">
         <div class="col-md-2">
@@ -13,7 +12,9 @@
         </div>
         <div class="col-md-10">
             <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></h3></p>
-            <p>Category: {{ $set->category_name }} (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
+                (Category:<strong> {{ $set->category_name }}</strong>
+                Terms: <strong> {{ $set->getCountTerms() }}</strong>
+                Studying: <strong> {{ $set->getCountStudying() }}</strong>)
             <p>{{ $set->description }}</p>
 
             <!-- @if($set->getCountTerms())

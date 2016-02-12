@@ -104,7 +104,7 @@ class TermController extends Controller
         }
 
         if ($request->input('submit') == 'Add Term and Continue') {
-            return redirect('/sets/' . $request->input('set_id') . '/terms/create');
+            return redirect('/sets/' . $request->input('set_id') . '/edit');
         }
 
         return redirect('/sets');
@@ -124,13 +124,15 @@ class TermController extends Controller
 
     public function destroy(Request $request, $id)
     {
+
         try {
             $term = Term::findOrFail($id);
+            $iid = $term->set_id;
             $term->delete();
             \Session::flash('flash_success', 'Delete successful!');
         } catch (ModelNotFoundException $e) {
             \Session::flash('flash_error', 'Delete failed. The term cannot be found.');
         }
-        return redirect('/terms');
+        return redirect('/sets/' . $iid . '/edit');
     }
 }
