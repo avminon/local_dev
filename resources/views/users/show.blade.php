@@ -23,23 +23,36 @@
                         </tr>
                     </table>
                 </div>
-                <div class="panel-footer text-center">
+                <div class="panel-footer text-left">
                     <table>
                         <tr>
-                            <th>Words Learned</th><td>&nbsp;</td><td>{{ count($lessonWords) }}</td>
+                            <td>
+                            <strong>Sets I created({{ count($setsCreated) }})</strong>
+                            <br />
+                            <ul class="list-group">
+                                @foreach ($setsCreated as $set)
+                                    <li class="list-group-item">{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
+                                @endforeach
+                            </ul>
+                            </td>
                         </tr>
                         <tr>
-                            <th>Followers</th><td>&nbsp;</td><td>{{ count($user->followees) }}</td>
-                        </tr>
-                        <tr>
-                            <th>Following</th><td>&nbsp;</td><td>{{ count($user->followers) }}</td>
+                            <td>
+                            <strong>Sets I'm studying({{ count($setsStudying) }})</strong>
+                            <br />
+                            <ul class="list-group">
+                                @foreach ($setsStudying as $set)
+                                    <li class="list-group-item">{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
+                                @endforeach
+                            </ul>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <h2>Activities</h2>
+        <div class="col-md-6">
+            <h3>Activities</h3>
             @if (count($activities) == App\Activity::NO_ACTIVITY)
             {!!  trans('common.users.no_activities_found') !!}
             @else
@@ -60,7 +73,32 @@
                     </tbody>
                 </table>
             @endif
-            <hr>
+        </div>
+        <div class="col-mid-2">
+            <table>
+                <tr>
+                    <td>
+                    <strong>My Followers({{ count($user->followees) }})</strong>
+                    <br />
+                    <ul class="list-group">
+                        @foreach ($followers as $follower)
+                            <li class="list-group-item">{!! link_to('users/show/' . $follower->id, $follower->name) !!}</li>
+                        @endforeach
+                    </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <strong>People I Follow({{ count($user->followers) }})</strong>
+                    <br />
+                    <ul class="list-group">
+                        @foreach ($followees as $followee)
+                            <li class="list-group-item">{!! link_to('users/show/' . $followee->id, $followee->name) !!}</li>
+                        @endforeach
+                    </ul>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 @endsection

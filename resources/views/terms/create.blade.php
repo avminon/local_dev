@@ -23,6 +23,10 @@
 
         {!! Form::submit('Add Term and Continue',['name' => 'submit', 'class' => 'btn btn-large btn-success']) !!}
         {!! Form::submit('Add Term',['name' => 'submit', 'class' => 'btn btn-large btn-warning']) !!}
-
     {!! Form::close() !!}
+    {!! Form::open(['method' => 'get', 'route' => ['terms.list', $set->id]]) !!}
+        {!! Form::submit('Back',['name' => 'submit', 'class' => 'btn btn-large btn-danger']) !!}
+    {!! Form::close() !!}
+
+
 @endsection
