@@ -36,7 +36,7 @@ class TermController extends Controller
 
         return view('terms.list', [
             'set' => $set,
-            'terms' => Term::where('set_id', $set->id)->get(),
+            'terms' => Term::where('set_id', $id)->get(),
             'user' => $this->user,
             'title' => 'Terms from Set',
             'studying' => $studying,

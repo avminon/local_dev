@@ -99,6 +99,77 @@ class Set extends Model
         }
     }
 
+    public function getUserStudyingSet($userId)
+    {
+        $setIds = Studying::where('user_id', $userId)->lists('set_id');
+        $sets = Set::with('user')->whereIn('id', $setIds)->get();
+
+        return $sets;
+    }
+
+    public function getUserCreatedSet($userId)
+    {
+        $sets = Set::where('user_id', $userId)->get();
+
+        return $sets;
+    }
+
+    public function filterSetsForUser($userId)
+    {
+        $follow = new Follow;
+        $followers = $follow->getFollowers($userId);
+        $followees = $follow->getFollowees($userId);
+
+        $users = [
+            'id' => $userId,
+            'followers' => $followers,
+            'followees' => $followees,
+        ];
+
+        //dd($userId, $followers, $followees);
+        $sets = Set::orWhere(function ($query) use ($users) {
+            $query->where('availability', Set::AVAILABILITY_0);
+        })
+            ->orWhere(function ($query) use ($users) {
+                $query->where('availability', Set::AVAILABILITY_1)
+                    ->where('user_id', $users['id']);
+            })
+            ->orWhere(function ($query) use ($users) {
+                $query->where('availability', Set::AVAILABILITY_2)
+                    ->where('user_id', $users['id'])
+                    ->orWhereIn('user_id', $users['followers']);
+            })
+            ->orWhere(function ($query) use ($users) {
+                $query->where('availability', Set::AVAILABILITY_3)
+                    ->where('user_id', $users['id'])
+                    ->orWhereIn('user_id', $users['followees']);
+            })
+            ->orWhere(function ($query) use ($users) {
+                $query->where('availability', Set::AVAILABILITY_4)
+                    ->where('user_id', $users['id'])
+                    ->orWhereIn('user_id', $users['followees'])
+                    ->orWhereIn('user_id', $users['followers']);
+            });
+
+        return $sets;
+    }
+
+    public function getSetsForUser($userId)
+    {
+        $sets = Set::filterSetsForUser($userId)
+            ->get();
+
+        return $sets;
+    }
+
+    public function getRecommendedSets($userId)
+    {
+        $sets = Set::filterSetsForUser($userId)
+            ->where('recommended', Set::AVAILABILITY_1)
+            ->get();
+
+        return $sets;
+    }
     // public function addToRecommended($setId)
     // {
     //     $this->recommended = Set::RECOMMENDED;

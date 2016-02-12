@@ -28,19 +28,45 @@ class SetController extends Controller
         session()->keep('setName');
     }
 
+    public function listCustom($id, $type)
+    {
+        $set = new Set;
+        switch ($type) {
+            case 'created':
+                $sets = $set->getUserCreatedSet($this->user->id);
+                $title = 'Sets You Created';
+                break;
+            case 'studying':
+                $sets = $set->getUserStudyingSet($this->user->id);
+                $title = 'Sets You Are Currently Studying';
+                break;
+            case 'recommended':
+                $sets = $set->getRecommendedSets($this->user->id);
+                $title = 'Recommended Sets';
+                break;
+
+            default:
+                $sets = $set->getSetsForUser($this->user->id);
+                $title = 'Available Sets';
+                break;
+        }
+
+        return view('sets.index', [
+            'sets' => $sets,
+            'user' => $this->user,
+            'title' => $title,
+        ]);
+    }
+
     public function index()
     {
         $sets = Set::all();
-
-        $includeArray = [];
+        $follow = new Follow;
 
         foreach ($sets as $key => $set) {
-            $isFollower = Follow::where('follower_id', $this->user->id)
-                ->where('followee_id', $set->user_id)
-                ->first();
-            $isFollowee = Follow::where('followee_id', $this->user->id)
-                ->where('follower_id', $set->user_id)
-                ->first();
+            $isFollower = $follow->isFollower($this->user->id, $set->user_id);
+
+            $isFollowee = $follow->isFollowee($this->user->id, $set->user_id);
             switch ($set->availability) {
                 case Set::AVAILABILITY_0:
                     break;
