@@ -39,6 +39,11 @@ class Set extends Model
         return $this->hasMany(Term::class, 'set_id');
     }
 
+    public function studying()
+    {
+        return $this->hasMany(Studying::class, 'set_id');
+    }
+
     public function results()
     {
         return $this->hasMany(Result::class, 'set_id');
@@ -75,6 +80,11 @@ class Set extends Model
     public function getCountTerms()
     {
         return $this->terms()->count();
+    }
+
+    public function getCountStudying()
+    {
+        return $this->studying()->count();
     }
 
     public function getTerms($setId, $userId)
@@ -114,7 +124,7 @@ class Set extends Model
         return $sets;
     }
 
-    public function filterSetsForUser($userId)
+    public function filterSetsForUser($userId, $type)
     {
         $follow = new Follow;
         $followers = $follow->getFollowers($userId);
@@ -127,36 +137,49 @@ class Set extends Model
         ];
 
         //dd($userId, $followers, $followees);
-        $sets = Set::orWhere(function ($query) use ($users) {
-            $query->where('availability', Set::AVAILABILITY_0);
-        })
-            ->orWhere(function ($query) use ($users) {
-                $query->where('availability', Set::AVAILABILITY_1)
-                    ->where('user_id', $users['id']);
-            })
-            ->orWhere(function ($query) use ($users) {
-                $query->where('availability', Set::AVAILABILITY_2)
-                    ->where('user_id', $users['id'])
-                    ->orWhereIn('user_id', $users['followers']);
-            })
-            ->orWhere(function ($query) use ($users) {
-                $query->where('availability', Set::AVAILABILITY_3)
-                    ->where('user_id', $users['id'])
-                    ->orWhereIn('user_id', $users['followees']);
-            })
-            ->orWhere(function ($query) use ($users) {
-                $query->where('availability', Set::AVAILABILITY_4)
-                    ->where('user_id', $users['id'])
-                    ->orWhereIn('user_id', $users['followees'])
-                    ->orWhereIn('user_id', $users['followers']);
+        $sets = Set::where('name', 'like', '%' . $type . '%')
+            ->where(function ($query1) use ($users) {
+                $query1->orWhere(function ($query) use ($users) {
+                    $query->where('availability', Set::AVAILABILITY_0);
+                })
+                    ->orWhere(function ($query) use ($users) {
+                        $query->where('availability', Set::AVAILABILITY_1)
+                            ->where('user_id', $users['id']);
+                    })
+                    ->orWhere(function ($query) use ($users) {
+                        $query->where('availability', Set::AVAILABILITY_2)
+                            ->where('user_id', $users['id'])
+                            ->orWhereIn('user_id', $users['followers']);
+                    })
+                    ->orWhere(function ($query) use ($users) {
+                        $query->where('availability', Set::AVAILABILITY_3)
+                            ->where('user_id', $users['id'])
+                            ->orWhereIn('user_id', $users['followees']);
+                    })
+                    ->orWhere(function ($query) use ($users) {
+                        $query->where('availability', Set::AVAILABILITY_4)
+                            ->where('user_id', $users['id'])
+                            ->orWhereIn('user_id', $users['followees'])
+                            ->orWhereIn('user_id', $users['followers']);
+                    });
+
             });
 
         return $sets;
     }
 
-    public function getSetsForUser($userId)
+    public function getNewSetsForUser($userId)
     {
-        $sets = Set::filterSetsForUser($userId)
+        $sets = Set::filterSetsForUser($userId, '')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return $sets;
+    }
+
+    public function getSetsForUser($userId, $type)
+    {
+        $sets = Set::filterSetsForUser($userId, $type)
             ->get();
 
         return $sets;
@@ -164,12 +187,31 @@ class Set extends Model
 
     public function getRecommendedSets($userId)
     {
-        $sets = Set::filterSetsForUser($userId)
+        $sets = Set::filterSetsForUser($userId, '')
             ->where('recommended', Set::AVAILABILITY_1)
             ->get();
 
         return $sets;
     }
+
+    public function getUserFolloweeActivities($userId)
+    {
+        $followeeIds = Follow::where('follower_id', $userId)->lists('followee_id');
+        $activities = Activity::with('user')->whereIn('user_id', $followeeIds)->get();
+
+        return $activities;
+    }
+
+    public function getPopularSet($userId)
+    {
+        $sets = Set::join('studying', 'studying.set_id', '=', 'sets.id')
+            ->selectRaw('sets.*, count(studying.set_id) as total')
+            ->groupBy('studying.set_id')
+            ->orderBy('total', 'desc')
+            ->get();
+        return $sets;
+    }
+
     // public function addToRecommended($setId)
     // {
     //     $this->recommended = Set::RECOMMENDED;

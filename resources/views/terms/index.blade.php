@@ -5,7 +5,7 @@
 @section('set_content')
     @foreach ($terms as $term)
     <div class="list-group">
-            <div class="col-md-2">ddd
+            <div class="col-md-2">
                 {!! $term->set_id !!}
             </div>
             <div class="col-md-10">

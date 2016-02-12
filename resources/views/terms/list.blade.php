@@ -19,12 +19,16 @@
                     @if (is_null($studying))
                         {!! Form::open(['method' => 'get', 'route' => ['sets.study']]) !!}
                             {!! Form::hidden('setId', $set->id) !!}
-                            {!! Form::submit('STUDY THIS') !!}
+                        @if (!$user->isAdmin())
+                                {!! Form::submit('STUDY THIS') !!}
+                        @endif
                         {!! Form::close() !!}
                     @else
                         {!! Form::open(['method' => 'get', 'route' => ['sets.unstudy']]) !!}
                             {!! Form::hidden('setId', $set->id) !!}
-                            {!! Form::submit('UNSTUDY THIS') !!}
+                            @if (!$user->isAdmin())
+                                {!! Form::submit('UNSTUDY THIS') !!}
+                            @endif
                         {!! Form::close() !!}
                     @endif
                     @if ($user->isAdmin())
@@ -59,7 +63,7 @@
                            A: {{ $term->answer }}
                         </div>
                 </li>
-        @endforeach
+            @endforeach
         </ul>
     </div>
 @endsection
