@@ -26,7 +26,19 @@
                             {!! Form::submit('UNSTUDY THIS') !!}
                         {!! Form::close() !!}
                     @endif
-
+                    @if ($user->isAdmin())
+                        @if ($set->recommended == App\Set::NOT_RECOMMENDED)
+                            {!! Form::open(['method' => 'get', 'route' => ['sets.recommend']]) !!}
+                                {!! Form::hidden('setId', $set->id) !!}
+                                {!! Form::submit('Add to Recommended List') !!}
+                            {!! Form::close() !!}
+                        @else
+                            {!! Form::open(['method' => 'get', 'route' => ['sets.unrecommend']]) !!}
+                                {!! Form::hidden('setId', $set->id) !!}
+                                {!! Form::submit('Remove from Recommended List') !!}
+                            {!! Form::close() !!}
+                        @endif
+                    @endif
                 <p>
             </div>
     </div>

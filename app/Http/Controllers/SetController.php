@@ -192,4 +192,20 @@ class SetController extends Controller
         $studying->removeStudy($request->setId, $this->user->id);
         return redirect('/sets/' . $request->setId . '/terms/list');
     }
+
+    public function recommendSet(Request $request)
+    {
+        $set = Set::findOrFail($request->setId);
+        $set->recommended = Set::RECOMMENDED;
+        $set->save();
+        return redirect('/sets/' . $request->setId . '/terms/list');
+    }
+
+    public function unrecommendSet(Request $request)
+    {
+        $set = Set::findOrFail($request->setId);
+        $set->recommended = Set::NOT_RECOMMENDED;
+        $set->save();
+        return redirect('/sets/' . $request->setId . '/terms/list');
+    }
 }

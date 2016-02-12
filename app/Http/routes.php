@@ -25,6 +25,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('study', ['as' => 'sets.study', 'uses' => 'SetController@studySet']);
     Route::get('unstudy', ['as' => 'sets.unstudy', 'uses' => 'SetController@unstudySet']);
 
+    Route::get('recommend', ['as' => 'sets.recommend', 'uses' => 'SetController@recommendSet']);
+    Route::get('unrecommend', ['as' => 'sets.unrecommend', 'uses' => 'SetController@unrecommendSet']);
+
     Route::resource('terms', 'TermController');
 
     Route::get('/sets/{id}/terms/create/', ['as' => 'terms.create', 'uses' => 'TermController@create']);
