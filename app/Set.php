@@ -136,7 +136,6 @@ class Set extends Model
             'followees' => $followees,
         ];
 
-        //dd($userId, $followers, $followees);
         $sets = Set::where('name', 'like', '%' . $type . '%')
             ->where(function ($query1) use ($users) {
                 $query1->orWhere(function ($query) use ($users) {
@@ -162,9 +161,7 @@ class Set extends Model
                             ->orWhereIn('user_id', $users['followees'])
                             ->orWhereIn('user_id', $users['followers']);
                     });
-
             });
-
         return $sets;
     }
 
