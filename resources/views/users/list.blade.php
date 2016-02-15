@@ -24,9 +24,9 @@
             <table class="col-md-12">
                 <thead>
                     <tr>
-                        <th class="col-md-3">&nbsp;</th>
-                        <th class="col-md-2">Name</th>
-                        <th class="col-md-2">Details</th>
+                        <th class="col-md-1">&nbsp;</th>
+                        <th class="col-md-5">Name</th>
+                        <th class="col-md-3">Details</th>
                         <th class="col-md-2">Action</th>
                     </tr>
                 </thead>
@@ -42,33 +42,58 @@
                                 !!}
                             </td>
                             <td>
-                                {!! link_to('users/show/' . $followedUser->id,$followedUser->name) !!}
-                                <br />
-                                {{ $followedUser->email }}
+                                <ul class="list-group">
+                                <li class="list-group-item">
+                                    {!! link_to('users/show/' . $followedUser->id,$followedUser->name) !!}
+                                </li>
+                                <li class="list-group-item">{{ $followedUser->email }}</li>
+                                </ul>
                             </td>
                             <td>
-                                Followers: {{ count($followedUser->followees) }} <br />
-                                Following: {{ count($followedUser->followers) }}
+                                <ul class="list-group">
+                                <li class="list-group-item">Followers: {{ count($followedUser->followees) }}</li>
+                                <li class="list-group-item">Following: {{ count($followedUser->followers) }}</li>
+                                </ul>
                             </td>
 			                 @if (!($user->isAdmin()))
                             <td>
                                 @if (in_array($followedUser->id, $follows))
-                                    {!! link_to_route('user.unfollow',
-                                        trans('common.users.unfollow'),
-                                        $followedUser->id )
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                    {!! Form::open(['method' => 'get', 'route' => [
+                                            'user.unfollow',
+                                            $followedUser->id
+                                        ]])
                                     !!}
+                                        {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
+                                    {!! Form::close() !!}<br />
+                                    </li>
+                                </ul>
                                 @else
-                                    {!! link_to_route('user.follow',
-                                        trans('common.users.follow'),
-                                        $followedUser->id )
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                    {!! Form::open(['method' => 'get', 'route' => [
+                                            'user.follow',
+                                            $followedUser->id
+                                        ]])
                                     !!}
+                                        {!! Form::submit('Follow', ['class' => 'btn btn-success']) !!}
+                                    {!! Form::close() !!}<br />
+                                    </li>
+                                </ul>
                                 @endif
                             </td>
                             @else
                             <td>
-                                {!! link_to('users/show/' . $followedUser->id,'View') !!} <br />
-                                {!! link_to_route('users.edit', 'Edit', $followedUser->id) !!} <br />
-                                {!! link_to_route('users.destroy', 'Delete', $followedUser->id) !!}
+                                <ul class="list-group">
+                                <li class="list-group-item">
+                                    {!! link_to('users/show/' . $followedUser->id,'View') !!}
+                                    {!! link_to_route('users.edit', 'Edit', $followedUser->id) !!}
+                                </li>
+                                <li class="list-group-item">
+                                    {!! link_to_route('users.destroy', 'Delete', $followedUser->id) !!}
+                                </li>
+                                </ul>
                             </td>
                             @endif
                         </tr>

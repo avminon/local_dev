@@ -112,14 +112,14 @@ class Set extends Model
     public function getUserStudyingSet($userId)
     {
         $setIds = Studying::where('user_id', $userId)->lists('set_id');
-        $sets = Set::with('user')->whereIn('id', $setIds)->get();
+        $sets = Set::with('user')->whereIn('id', $setIds)->paginate(Set::NUMBER_SET);
 
         return $sets;
     }
 
     public function getUserCreatedSet($userId)
     {
-        $sets = Set::where('user_id', $userId)->get();
+        $sets = Set::where('user_id', $userId)->paginate(Set::NUMBER_SET);
 
         return $sets;
     }
@@ -172,7 +172,7 @@ class Set extends Model
     {
         $sets = Set::filterSetsForUser($userId, '')
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(Set::NUMBER_SET);
 
         return $sets;
     }
@@ -180,7 +180,7 @@ class Set extends Model
     public function getSetsForUser($userId, $type)
     {
         $sets = Set::filterSetsForUser($userId, $type)
-            ->get();
+            ->paginate(Set::NUMBER_SET);
 
         return $sets;
     }
@@ -189,7 +189,7 @@ class Set extends Model
     {
         $sets = Set::filterSetsForUser($userId, '')
             ->where('recommended', Set::AVAILABILITY_1)
-            ->get();
+            ->paginate(Set::NUMBER_SET);
 
         return $sets;
     }
@@ -197,7 +197,7 @@ class Set extends Model
     public function getUserFolloweeActivities($userId)
     {
         $followeeIds = Follow::where('follower_id', $userId)->lists('followee_id');
-        $activities = Activity::with('user')->whereIn('user_id', $followeeIds)->get();
+        $activities = Activity::with('user')->whereIn('user_id', $followeeIds)->paginate(Set::NUMBER_SET);
 
         return $activities;
     }
@@ -208,19 +208,7 @@ class Set extends Model
             ->selectRaw('sets.*, count(studying.set_id) as total')
             ->groupBy('studying.set_id')
             ->orderBy('total', 'desc')
-            ->get();
+            ->paginate(Set::NUMBER_SET);
         return $sets;
     }
-
-    // public function addToRecommended($setId)
-    // {
-    //     $this->recommended = Set::RECOMMENDED;
-    //     $this->save;
-    // }
-
-    // public function removeFromRecommended($setId)
-    // {
-    //     $this->recommended = Set::NOT_RECOMMENDED;
-    //     $this->save;
-    // }
 }

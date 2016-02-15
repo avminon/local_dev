@@ -26,15 +26,15 @@
                 <div class="panel-footer text-left">
                     <table>
                         <tr>
-                            <th>Words Learned</th><td>&nbsp;</td><td>{{ count($lessonWords) }}</td>
+                            <th>Words Learned({{ count($lessonWords) }})</th>
                         </tr>
                         <tr>
                             <td>
                             <strong>Sets I created({{ count($setsCreated) }})</strong>
                             <br />
-                            <ul>
+                            <ul class="list-group">
                                 @foreach ($setsCreated as $set)
-                                    <li>{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
+                                    <li class="list-group-item">{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
                                 @endforeach
                             </ul>
                             </td>
@@ -43,9 +43,9 @@
                             <td>
                             <strong>Sets I'm studying({{ count($setsStudying) }})</strong>
                             <br />
-                            <ul>
+                            <ul class="list-group">
                                 @foreach ($setsStudying as $set)
-                                    <li>{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
+                                    <li class="list-group-item">{!! link_to('sets/' . $set->id . '/terms/list', $set->name) !!}</li>
                                 @endforeach
                             </ul>
                             </td>
@@ -70,8 +70,20 @@
                     @foreach ($activities as $activity)
 
                         <tr>
-                            <td>{{ $activity->created_at }}</td>
-                            <td>{{ $activity->activity }}</td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        {{ $activity->created_at }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        {{ $activity->activity }}
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -84,9 +96,9 @@
                     <td>
                     <strong>My Followers({{ count($user->followees) }})</strong>
                     <br />
-                    <ul>
+                    <ul class="list-group">
                         @foreach ($followers as $follower)
-                            <li>{!! link_to('users/show/' . $follower->id, $follower->name) !!}</li>
+                            <li class="list-group-item">{!! link_to('users/show/' . $follower->id, $follower->name) !!}</li>
                         @endforeach
                     </ul>
                     </td>
@@ -95,9 +107,15 @@
                     <td>
                     <strong>People I Follow({{ count($user->followers) }})</strong>
                     <br />
-                    <ul>
+                    <ul class="list-group">
                         @foreach ($followees as $followee)
-                            <li>{!! link_to('users/show/' . $followee->id, $followee->name) !!}</li>
+
+                            <li class="list-group-item">
+                            {!! Form::open(['method' => 'get', 'route' => ['user.unfollow', $followee->id]]) !!}
+                                {!! Form::submit('Unfollow', ['class' => 'btn btn-danger']) !!}
+                                {!! link_to('users/show/' . $followee->id, $followee->name) !!}
+                            {!! Form::close() !!}
+                            </li>
                         @endforeach
                     </ul>
                     </td>

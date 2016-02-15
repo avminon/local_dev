@@ -12,9 +12,15 @@
                 !!}
             </div>
             <div class="col-md-10">
-                <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></p>
-                <p></h3>Category: {{ $set->category_name }} (No. of terms added to this set: {{ $set->getCountTerms() }})</p>
-                <p>{{ $set->description }}</p>
+                <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></h3></p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Category: {{ $set->category_name }} (No. of terms added to this set: {{ $set->getCountTerms() }})
+                        </li>
+                        <li class="list-group-item">
+                            {{ $set->description }}
+                        </li>
+                    </ul>
                 <p>
                     @if (is_null($studying))
                         {!! Form::open(['method' => 'get', 'route' => ['sets.study']]) !!}
@@ -46,7 +52,7 @@
                     @endif
                 <p/>
                 <p>
-                    {!! link_to_route('terms.create', 'Add Terms', [$set->id]) !!}
+                    {!! link_to_route('sets.edit', 'Edit', [$set->id]) !!}
                 <p>
             </div>
     </div>
