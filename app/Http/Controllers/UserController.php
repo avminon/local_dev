@@ -248,8 +248,8 @@ class UserController extends Controller
         $eventData = [
             'userId' => $this->user->id,
             'activity' => $this->user->name . " followed " . $followee->name,
-            'lessonId' => User::NO_LESSONID,
-            'type' => User::FOLLOW_ACTIVITY,
+            'lessonId' => Activity::NO_LESSONID,
+            'type' => Activity::FOLLOW_ACTIVITY,
         ];
         \Event::fire(new ActivityEvent($eventData));
 
@@ -265,8 +265,8 @@ class UserController extends Controller
         $eventData = [
             'userId' => $this->user->id,
             'activity' => $this->user->name . " unfollowed " . $followee->name,
-            'lessonId' => User::NO_LESSONID,
-            'type' => User::FOLLOW_ACTIVITY,
+            'lessonId' => Activity::NO_LESSONID,
+            'type' => Activity::FOLLOW_ACTIVITY,
         ];
         \Event::fire(new ActivityEvent($eventData));
 

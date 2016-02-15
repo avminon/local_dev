@@ -70,7 +70,7 @@ class LessonWordController extends Controller
                 'activity' => $this->user->name . " learned " . intval(session()->get('questionIndex')) .
                 "/" . intval(session()->get('wordCount')) . " in " . session()->get('lessonName'),
                 'lessonId' => $lessonId,
-                'type' => User::WITH_LESSONID,
+                'type' => Activity::WITH_LESSONID,
             ];
             \Event::fire(new ActivityEvent($eventData));
 
