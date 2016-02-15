@@ -12,20 +12,14 @@
         </div>
         <div class="col-md-10">
             <p><h3><u>{!! link_to_route('terms.list', $set->name, [$set->id]) !!}</u></h3></p>
-                (Category:<strong> {{ $set->category_name }}</strong>
-                Terms: <strong> {{ $set->getCountTerms() }}</strong>
-                Studying: <strong> {{ $set->getCountStudying() }}</strong>)
-            <p>{{ $set->description }}</p>
-
-            <!-- @if($set->getCountTerms())
-                <br />
-                {!! Form::open(['method' => 'get', 'route' => 'take']) !!}
-                    {!! Form::hidden('setName', $set->name) !!}
-                    {!! Form::hidden('termCount', $set->getCountTerms()) !!}
-                    {!! Form::hidden('setId', $set->id) !!}
-                    {!! Form::submit('Take quiz') !!}
-                {!! Form::close() !!}
-            @endif -->
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        (Category:<strong> {{ $set->category_name }}</strong>
+                        Terms: <strong> {{ $set->getCountTerms() }}</strong>
+                        Studying: <strong> {{ $set->getCountStudying() }}</strong>)
+                    </li>
+                <li class="list-group-item">{{ $set->description }}</li>
+                </ul>
         <div class="row-fluid">
             <div class="col-md-3">{!! link_to_route('terms.list', 'View', [$set->id]) !!}</div>
                 @if (($user->isAdmin()) || ($set->user_id == $user->id))
@@ -42,4 +36,5 @@
         </div>
     </div>
     @endforeach
+    {!! $sets->render() !!}
 @endsection

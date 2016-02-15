@@ -1,6 +1,5 @@
 @extends('app')
 @section('content')
-<!--AAA1-->
         <div class="col-md-2">
             <div class="panel-body text-center">
 
@@ -21,10 +20,12 @@
                         <span class='glyphicon glyphicon-plus'></span>
                         {!! link_to_route('sets.create', 'Create new set') !!}
                     </li>
+                    @if ((!auth()->guest()) && (!($user->isAdmin())))
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-book'></span>
                         {!! link_to_route('sets.user.list', 'Studying', [$user->id, 'studying']) !!}
                     </li>
+                    @endif
                     <li class="list-group-item">
                         <span class='glyphicon glyphicon-gift'></span>
                         {!! link_to_route('sets.user.list', 'Created', [$user->id, 'created']) !!}
@@ -49,9 +50,7 @@
             </div>
         </div>
         <div class="col-md-8 naid">
-<!--ZZZAAA1-->
             @yield('set_content')
-<!--AAA2-->
         </div>
         <div class="col-md-2">
             <div class="panel-body text-center">
@@ -73,6 +72,4 @@
                 </ul>
             </div>
         </div>
-
-<!--ZZZAAA2-->
 @endsection

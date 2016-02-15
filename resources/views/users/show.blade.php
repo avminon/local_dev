@@ -66,8 +66,20 @@
                     <tbody>
                     @foreach ($activities as $activity)
                         <tr>
-                            <td>{{ $activity->created_at }}</td>
-                            <td>{{ $activity->activity }}</td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        {{ $activity->created_at }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        {{ $activity->activity }}
+                                    </li>
+                                </ul>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

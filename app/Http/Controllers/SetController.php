@@ -57,13 +57,11 @@ class SetController extends Controller
                 $sets = $set->getNewSetsForUser($this->user->id);
                 $title = 'New Sets ';
                 break;
-
             default:
                 $sets = $set->getSetsForUser($this->user->id, $type);
                 $title = 'Available Sets';
                 break;
         }
-
         foreach ($sets as $set) {
             $set->category_name = Category::where('id', $set->category_id)->lists('name')->first();
         }
@@ -76,7 +74,7 @@ class SetController extends Controller
 
     public function index()
     {
-        $sets = Set::all();
+        $sets = Set::paginate(Set::NUMBER_SET);
         $follow = new Follow;
 
         foreach ($sets as $key => $set) {
